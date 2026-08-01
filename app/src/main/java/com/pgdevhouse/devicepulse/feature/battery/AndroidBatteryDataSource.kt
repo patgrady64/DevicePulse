@@ -42,21 +42,13 @@ class AndroidBatteryDataSource(
             UNKNOWN_VALUE
         )
 
-        if (level < 0 || scale <= 0) {
-            return null
-        }
-
-        return ((level.toFloat() / scale.toFloat()) * 100)
-            .toInt()
-            .coerceIn(
-                minimumValue = MIN_BATTERY_PERCENTAGE,
-                maximumValue = MAX_BATTERY_PERCENTAGE
-            )
+        return BatteryPercentageCalculator.calculate(
+            level = level,
+            scale = scale
+        )
     }
 
     private companion object {
         const val UNKNOWN_VALUE = -1
-        const val MIN_BATTERY_PERCENTAGE = 0
-        const val MAX_BATTERY_PERCENTAGE = 100
     }
 }
