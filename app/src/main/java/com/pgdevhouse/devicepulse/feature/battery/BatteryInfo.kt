@@ -1,10 +1,9 @@
 package com.pgdevhouse.devicepulse.feature.battery
 
 /**
- * Represents battery information collected from the Android operating system.
- *
- * More battery properties will be added as DevicePulse grows.
+ * Represents battery information collected from Android.
  */
 data class BatteryInfo(
-    val percentage: Int?
+    val percentage: Int?,
+    val chargingStatus: BatteryChargingStatus
 )

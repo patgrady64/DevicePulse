@@ -21,7 +21,8 @@ class AndroidBatteryDataSource(
         )
 
         return BatteryInfo(
-            percentage = calculateBatteryPercentage(batteryIntent)
+            percentage = calculateBatteryPercentage(batteryIntent),
+            chargingStatus = readChargingStatus(batteryIntent)
         )
     }
 
@@ -47,6 +48,21 @@ class AndroidBatteryDataSource(
             scale = scale
         )
     }
+    private fun readChargingStatus(
+        batteryIntent: Intent?
+    ): BatteryChargingStatus {
+        if (batteryIntent == null) {
+            return BatteryChargingStatus.UNKNOWN
+        }
+
+        val androidStatus = batteryIntent.getIntExtra(
+            BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN
+        )
+
+        return BatteryChargingStatusMapper.map(androidStatus)
+    }
+
 
     private companion object {
         const val UNKNOWN_VALUE = -1

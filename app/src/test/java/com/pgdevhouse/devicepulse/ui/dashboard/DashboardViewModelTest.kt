@@ -1,9 +1,26 @@
 package com.pgdevhouse.devicepulse.ui.dashboard
 
+import com.pgdevhouse.devicepulse.feature.battery.BatteryChargingStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import com.pgdevhouse.devicepulse.feature.battery.BatteryDataSource
+import com.pgdevhouse.devicepulse.feature.battery.BatteryInfo
+import com.pgdevhouse.devicepulse.feature.battery.BatteryRepository
+
+private class FakeBatteryDataSource(
+    private val percentage: Int?
+) : BatteryDataSource {
+
+    override fun getCurrentBatteryInfo(): BatteryInfo {
+        return BatteryInfo(
+            percentage = percentage,
+            chargingStatus = BatteryChargingStatus.DISCHARGING
+        )
+    }
+}
+
 
 class DashboardViewModelTest {
 
@@ -11,7 +28,15 @@ class DashboardViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = DashboardViewModel()
+        val repository = BatteryRepository(
+            batteryDataSource = FakeBatteryDataSource(
+                percentage = 74
+            )
+        )
+
+        viewModel = DashboardViewModel(
+            batteryRepository = repository
+        )
     }
 
     @Test
@@ -26,6 +51,11 @@ class DashboardViewModelTest {
         assertEquals("32.4°C", state.batteryTemperature)
         assertEquals("82 GB", state.freeStorage)
         assertEquals("3.1 GB", state.availableMemory)
+
+        assertEquals(
+            "Discharging",
+            state.batteryChargingStatus
+        )
     }
 
     @Test

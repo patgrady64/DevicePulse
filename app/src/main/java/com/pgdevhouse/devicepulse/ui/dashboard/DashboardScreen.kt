@@ -25,17 +25,36 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.Surface
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.Surface
+import androidx.compose.ui.platform.LocalContext
+import com.pgdevhouse.devicepulse.feature.battery.AndroidBatteryDataSource
+import com.pgdevhouse.devicepulse.feature.battery.AndroidBatteryMonitor
+import com.pgdevhouse.devicepulse.feature.battery.BatteryRepository
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
 
 /**
  * Connects the dashboard UI to its screen-level ViewModel.
  */
 @Composable
 fun DashboardRoute(
-    modifier: Modifier = Modifier,
-    viewModel: DashboardViewModel = viewModel()
+    modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
+    val batteryRepository = BatteryRepository(
+        batteryMonitor = AndroidBatteryMonitor(context)
+    )
+
+    val viewModel: DashboardViewModel = viewModel(
+        factory = DashboardViewModelFactory(
+            batteryRepository = batteryRepository
+        )
+    )
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     DashboardScreen(
-        uiState = viewModel.uiState,
+        uiState = uiState,
         modifier = modifier
     )
 }
@@ -156,7 +175,7 @@ private fun StatusSummaryCard(
 
 @Composable
 private fun BatteryCard(
-    batteryPercentage: Int,
+    batteryPercentage: Int?,
     temperature: String,
     chargingStatus: String,
     batteryCondition: String
@@ -165,16 +184,18 @@ private fun BatteryCard(
         title = "Battery"
     ) {
         Text(
-            text = "$batteryPercentage%",
+            text = batteryPercentage?.let { "$it%" } ?: "Unavailable",
             style = MaterialTheme.typography.displaySmall
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        LinearProgressIndicator(
-            progress = { batteryPercentage / 100f },
-            modifier = Modifier.fillMaxWidth()
-        )
+        if (batteryPercentage != null) {
+            LinearProgressIndicator(
+                progress = { batteryPercentage / 100f },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
