@@ -38,7 +38,9 @@ class DashboardViewModel(
                         currentState.copy(
                             batteryPercentage = batteryInfo.percentage,
                             batteryChargingStatus =
-                                batteryInfo.chargingStatus.toDisplayText()
+                                batteryInfo.chargingStatus.toDisplayText(),
+                            batteryTemperature =
+                                batteryInfo.temperatureCelsius
                         )
                     }
                 }

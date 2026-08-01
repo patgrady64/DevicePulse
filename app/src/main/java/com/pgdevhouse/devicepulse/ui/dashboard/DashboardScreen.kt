@@ -21,16 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pgdevhouse.devicepulse.ui.theme.DevicePulseTheme
-import androidx.compose.foundation.background
 import androidx.compose.material3.Surface
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.LocalContext
-import com.pgdevhouse.devicepulse.feature.battery.AndroidBatteryDataSource
 import com.pgdevhouse.devicepulse.feature.battery.AndroidBatteryMonitor
 import com.pgdevhouse.devicepulse.feature.battery.BatteryRepository
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
+import com.pgdevhouse.devicepulse.util.TemperatureFormatter
 
 /**
  * Connects the dashboard UI to its screen-level ViewModel.
@@ -176,7 +174,7 @@ private fun StatusSummaryCard(
 @Composable
 private fun BatteryCard(
     batteryPercentage: Int?,
-    temperature: String,
+    temperature: Float?,
     chargingStatus: String,
     batteryCondition: String
 ) {
@@ -206,7 +204,9 @@ private fun BatteryCard(
 
         InformationRow(
             label = "Temperature",
-            value = temperature
+            value = TemperatureFormatter.format(
+                temperature
+            )
         )
 
         InformationRow(

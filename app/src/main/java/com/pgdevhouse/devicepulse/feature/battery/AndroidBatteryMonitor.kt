@@ -51,7 +51,9 @@ class AndroidBatteryMonitor(
                             scale = scale
                         ),
                         chargingStatus =
-                            BatteryChargingStatusMapper.map(status)
+                            BatteryChargingStatusMapper.map(status),
+                        temperatureCelsius =
+                            readTemperature(intent)
                     )
                 )
             }
@@ -66,4 +68,20 @@ class AndroidBatteryMonitor(
             applicationContext.unregisterReceiver(receiver)
         }
     }
+    private fun readTemperature(
+        intent: Intent
+    ): Float? {
+
+        val rawTemperature = intent.getIntExtra(
+            BatteryManager.EXTRA_TEMPERATURE,
+            Int.MIN_VALUE
+        )
+
+        if (rawTemperature == Int.MIN_VALUE) {
+            return null
+        }
+
+        return rawTemperature / 10f
+    }
+
 }

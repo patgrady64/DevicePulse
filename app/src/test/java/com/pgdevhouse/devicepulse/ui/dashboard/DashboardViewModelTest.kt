@@ -5,31 +5,43 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import com.pgdevhouse.devicepulse.feature.battery.BatteryDataSource
 import com.pgdevhouse.devicepulse.feature.battery.BatteryInfo
 import com.pgdevhouse.devicepulse.feature.battery.BatteryRepository
+import com.pgdevhouse.devicepulse.feature.battery.BatteryMonitor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import com.pgdevhouse.devicepulse.testing.MainDispatcherRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Rule
 
-private class FakeBatteryDataSource(
-    private val percentage: Int?
-) : BatteryDataSource {
+private class FakeBatteryMonitor(
+    private val percentage: Int?,
+    private val temperatureCelsius: Float? = 32.4f
+) : BatteryMonitor {
 
-    override fun getCurrentBatteryInfo(): BatteryInfo {
-        return BatteryInfo(
-            percentage = percentage,
-            chargingStatus = BatteryChargingStatus.DISCHARGING
+    override fun observeBatteryInfo(): Flow<BatteryInfo> {
+        return flowOf(
+            BatteryInfo(
+                percentage = percentage,
+                chargingStatus = BatteryChargingStatus.DISCHARGING,
+                temperatureCelsius = temperatureCelsius
+            )
         )
     }
 }
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DashboardViewModelTest {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var viewModel: DashboardViewModel
 
     @Before
     fun setUp() {
         val repository = BatteryRepository(
-            batteryDataSource = FakeBatteryDataSource(
+            batteryMonitor = FakeBatteryMonitor(
                 percentage = 74
             )
         )
@@ -41,14 +53,14 @@ class DashboardViewModelTest {
 
     @Test
     fun `initial state contains expected dashboard values`() {
-        val state = viewModel.uiState
+        val state = viewModel.uiState.value
 
         assertEquals(
             "Everything appears normal",
             state.statusTitle
         )
         assertEquals(74, state.batteryPercentage)
-        assertEquals("32.4°C", state.batteryTemperature)
+        assertEquals(32.4f, state.batteryTemperature)
         assertEquals("82 GB", state.freeStorage)
         assertEquals("3.1 GB", state.availableMemory)
 
@@ -60,7 +72,7 @@ class DashboardViewModelTest {
 
     @Test
     fun `battery percentage is within valid range`() {
-        val percentage = viewModel.uiState.batteryPercentage
+        val percentage = viewModel.uiState.value.batteryPercentage
 
         assertTrue(
             "Battery percentage must be between 0 and 100",
@@ -70,7 +82,7 @@ class DashboardViewModelTest {
 
     @Test
     fun `progress values are within valid range`() {
-        val state = viewModel.uiState
+        val state = viewModel.uiState.value
 
         assertTrue(state.storageUsageProgress in 0f..1f)
         assertTrue(state.memoryUsageProgress in 0f..1f)

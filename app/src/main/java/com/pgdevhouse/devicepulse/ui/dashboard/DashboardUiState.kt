@@ -12,7 +12,7 @@ data class DashboardUiState(
         "Battery temperature, storage, and memory are within normal ranges.",
 
     val batteryPercentage: Int? = null,
-    val batteryTemperature: String = "32.4°C",
+    val batteryTemperature: Float? = null,
     val batteryChargingStatus: String = "Unavailable",
     val batteryCondition: String = "Good",
 
