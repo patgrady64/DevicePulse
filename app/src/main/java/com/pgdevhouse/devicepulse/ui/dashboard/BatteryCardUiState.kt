@@ -10,5 +10,6 @@ data class BatteryCardUiState(
     val percentage: Int? = null,
     val chargingStatus: String = "Unavailable",
     val temperature: Float? = null,
-    val condition: String = "Unknown"
+    val condition: String = "Unknown",
+    val voltageMillivolts: Int? = null
 )

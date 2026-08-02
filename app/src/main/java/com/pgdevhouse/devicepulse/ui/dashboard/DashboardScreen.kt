@@ -29,6 +29,7 @@ import com.pgdevhouse.devicepulse.feature.battery.BatteryRepository
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import com.pgdevhouse.devicepulse.util.TemperatureFormatter
+import com.pgdevhouse.devicepulse.feature.battery.VoltageFormatter
 
 /**
  * Connects the dashboard UI to its screen-level ViewModel.
@@ -200,6 +201,13 @@ private fun BatteryCard(
             label = "Temperature",
             value = TemperatureFormatter.format(
                 state.temperature
+            )
+        )
+
+        InformationRow(
+            label = "Voltage",
+            value = VoltageFormatter.format(
+                state.voltageMillivolts
             )
         )
 

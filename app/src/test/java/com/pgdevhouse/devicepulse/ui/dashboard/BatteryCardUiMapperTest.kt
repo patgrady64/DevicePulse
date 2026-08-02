@@ -14,7 +14,8 @@ class BatteryCardUiMapperTest {
             percentage = 74,
             chargingStatus = BatteryChargingStatus.DISCHARGING,
             temperatureCelsius = 32.4f,
-            health = BatteryHealth.GOOD
+            health = BatteryHealth.GOOD,
+            voltageMillivolts = 4_200
         )
 
         val result = BatteryCardUiMapper.map(
@@ -25,6 +26,7 @@ class BatteryCardUiMapperTest {
         assertEquals("Discharging", result.chargingStatus)
         assertEquals(32.4f, result.temperature)
         assertEquals("Good", result.condition)
+        assertEquals(4_200, result.voltageMillivolts)
     }
 
     @Test
@@ -34,7 +36,8 @@ class BatteryCardUiMapperTest {
                 percentage = 50,
                 chargingStatus = BatteryChargingStatus.CHARGING,
                 temperatureCelsius = 30f,
-                health = BatteryHealth.GOOD
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200
             )
         )
 
@@ -48,7 +51,8 @@ class BatteryCardUiMapperTest {
                 percentage = 100,
                 chargingStatus = BatteryChargingStatus.FULL,
                 temperatureCelsius = 28f,
-                health = BatteryHealth.GOOD
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200
             )
         )
 
@@ -62,7 +66,8 @@ class BatteryCardUiMapperTest {
                 percentage = 80,
                 chargingStatus = BatteryChargingStatus.NOT_CHARGING,
                 temperatureCelsius = 29f,
-                health = BatteryHealth.GOOD
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200
             )
         )
 
@@ -76,7 +81,8 @@ class BatteryCardUiMapperTest {
                 percentage = null,
                 chargingStatus = BatteryChargingStatus.UNKNOWN,
                 temperatureCelsius = null,
-                health = BatteryHealth.GOOD
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200
             )
         )
 
@@ -142,7 +148,8 @@ class BatteryCardUiMapperTest {
                 percentage = 50,
                 chargingStatus = BatteryChargingStatus.DISCHARGING,
                 temperatureCelsius = 30f,
-                health = health
+                health = health,
+                voltageMillivolts = 4_200
             )
         )
     }

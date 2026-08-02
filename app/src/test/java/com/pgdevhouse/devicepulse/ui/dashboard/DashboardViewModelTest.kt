@@ -26,7 +26,8 @@ private class FakeBatteryMonitor(
                 percentage = percentage,
                 chargingStatus = BatteryChargingStatus.DISCHARGING,
                 temperatureCelsius = temperatureCelsius,
-                health = BatteryHealth.GOOD
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200
             )
         )
     }

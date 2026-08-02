@@ -36,6 +36,11 @@ DevicePulse follows a milestone-based development process. Versions may remain i
 - Dashboard condition mapping for good, overheated, cold, dead, over-voltage, failure, and unavailable states
 - Unit tests for battery health mapping and display behavior
 
+20260801210138
+- Live battery voltage monitoring
+- Voltage formatting from millivolts to volts
+- Unit tests for voltage formatting and battery UI mapping
+
 ### Changed
 
 20260801203453

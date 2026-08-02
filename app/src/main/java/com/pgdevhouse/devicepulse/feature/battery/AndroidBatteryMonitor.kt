@@ -49,18 +49,22 @@ class AndroidBatteryMonitor(
                     BatteryManager.BATTERY_HEALTH_UNKNOWN
                 )
 
+                val voltageMillivolts = intent.getIntExtra(
+                    BatteryManager.EXTRA_VOLTAGE,
+                    UNKNOWN_VALUE
+                )
+
                 trySend(
                     BatteryInfo(
                         percentage = BatteryPercentageCalculator.calculate(
                             level = level,
                             scale = scale
                         ),
-                        chargingStatus =
-                            BatteryChargingStatusMapper.map(status),
-                        temperatureCelsius =
-                            readTemperature(intent),
-                        health =
-                            BatteryHealthMapper.map(health)
+                        chargingStatus = BatteryChargingStatusMapper.map(status),
+                        temperatureCelsius = readTemperature(intent),
+                        health = BatteryHealthMapper.map(health),
+                        voltageMillivolts = voltageMillivolts
+                            .takeIf { it > 0 }
                     )
                 )
             }
@@ -91,4 +95,7 @@ class AndroidBatteryMonitor(
         return rawTemperature / 10f
     }
 
+    private companion object {
+        const val UNKNOWN_VALUE = -1
+    }
 }

@@ -20,9 +20,8 @@ object BatteryCardUiMapper {
             percentage = batteryInfo.percentage,
             chargingStatus = batteryInfo.chargingStatus.toDisplayText(),
             temperature = batteryInfo.temperatureCelsius,
-
-            // Temporary until Android battery health is implemented.
-            condition = batteryInfo.health.toDisplayText()
+            condition = batteryInfo.health.toDisplayText(),
+            voltageMillivolts = batteryInfo.voltageMillivolts
         )
     }
 }
