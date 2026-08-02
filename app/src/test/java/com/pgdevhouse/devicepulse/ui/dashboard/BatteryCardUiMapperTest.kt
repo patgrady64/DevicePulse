@@ -5,6 +5,7 @@ import com.pgdevhouse.devicepulse.feature.battery.BatteryHealth
 import com.pgdevhouse.devicepulse.feature.battery.BatteryInfo
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import com.pgdevhouse.devicepulse.feature.battery.BatteryPowerSource
 
 class BatteryCardUiMapperTest {
 
@@ -15,7 +16,8 @@ class BatteryCardUiMapperTest {
             chargingStatus = BatteryChargingStatus.DISCHARGING,
             temperatureCelsius = 32.4f,
             health = BatteryHealth.GOOD,
-            voltageMillivolts = 4_200
+            voltageMillivolts = 4_200,
+            powerSource = BatteryPowerSource.USB
         )
 
         val result = BatteryCardUiMapper.map(
@@ -27,6 +29,7 @@ class BatteryCardUiMapperTest {
         assertEquals(32.4f, result.temperature)
         assertEquals("Good", result.condition)
         assertEquals(4_200, result.voltageMillivolts)
+        assertEquals("USB", result.powerSource)
     }
 
     @Test
@@ -37,7 +40,8 @@ class BatteryCardUiMapperTest {
                 chargingStatus = BatteryChargingStatus.CHARGING,
                 temperatureCelsius = 30f,
                 health = BatteryHealth.GOOD,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
             )
         )
 
@@ -52,7 +56,8 @@ class BatteryCardUiMapperTest {
                 chargingStatus = BatteryChargingStatus.FULL,
                 temperatureCelsius = 28f,
                 health = BatteryHealth.GOOD,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
             )
         )
 
@@ -67,7 +72,8 @@ class BatteryCardUiMapperTest {
                 chargingStatus = BatteryChargingStatus.NOT_CHARGING,
                 temperatureCelsius = 29f,
                 health = BatteryHealth.GOOD,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
             )
         )
 
@@ -82,7 +88,8 @@ class BatteryCardUiMapperTest {
                 chargingStatus = BatteryChargingStatus.UNKNOWN,
                 temperatureCelsius = null,
                 health = BatteryHealth.GOOD,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
             )
         )
 
@@ -140,6 +147,48 @@ class BatteryCardUiMapperTest {
         assertEquals("Unavailable", result.condition)
     }
 
+    @Test
+    fun `maps AC power source correctly`() {
+        val result = mapPowerSource(BatteryPowerSource.AC)
+
+        assertEquals("AC charger", result.powerSource)
+    }
+
+    @Test
+    fun `maps USB power source correctly`() {
+        val result = mapPowerSource(BatteryPowerSource.USB)
+
+        assertEquals("USB", result.powerSource)
+    }
+
+    @Test
+    fun `maps wireless power source correctly`() {
+        val result = mapPowerSource(BatteryPowerSource.WIRELESS)
+
+        assertEquals("Wireless", result.powerSource)
+    }
+
+    @Test
+    fun `maps dock power source correctly`() {
+        val result = mapPowerSource(BatteryPowerSource.DOCK)
+
+        assertEquals("Dock", result.powerSource)
+    }
+
+    @Test
+    fun `maps battery power source correctly`() {
+        val result = mapPowerSource(BatteryPowerSource.BATTERY)
+
+        assertEquals("On battery", result.powerSource)
+    }
+
+    @Test
+    fun `maps unknown power source to unavailable`() {
+        val result = mapPowerSource(BatteryPowerSource.UNKNOWN)
+
+        assertEquals("Unavailable", result.powerSource)
+    }
+
     private fun mapHealth(
         health: BatteryHealth
     ): BatteryCardUiState {
@@ -149,7 +198,23 @@ class BatteryCardUiMapperTest {
                 chargingStatus = BatteryChargingStatus.DISCHARGING,
                 temperatureCelsius = 30f,
                 health = health,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
+            )
+        )
+    }
+
+    private fun mapPowerSource(
+        powerSource: BatteryPowerSource
+    ): BatteryCardUiState {
+        return BatteryCardUiMapper.map(
+            batteryInfo = BatteryInfo(
+                percentage = 50,
+                chargingStatus = BatteryChargingStatus.CHARGING,
+                temperatureCelsius = 30f,
+                health = BatteryHealth.GOOD,
+                voltageMillivolts = 4_200,
+                powerSource = powerSource
             )
         )
     }

@@ -3,6 +3,7 @@ package com.pgdevhouse.devicepulse.ui.dashboard
 import com.pgdevhouse.devicepulse.feature.battery.BatteryChargingStatus
 import com.pgdevhouse.devicepulse.feature.battery.BatteryInfo
 import com.pgdevhouse.devicepulse.feature.battery.BatteryHealth
+import com.pgdevhouse.devicepulse.feature.battery.BatteryPowerSource
 
 /**
  * Converts battery domain models into UI state.
@@ -21,7 +22,8 @@ object BatteryCardUiMapper {
             chargingStatus = batteryInfo.chargingStatus.toDisplayText(),
             temperature = batteryInfo.temperatureCelsius,
             condition = batteryInfo.health.toDisplayText(),
-            voltageMillivolts = batteryInfo.voltageMillivolts
+            voltageMillivolts = batteryInfo.voltageMillivolts,
+            powerSource = batteryInfo.powerSource.toDisplayText()
         )
     }
 }
@@ -56,5 +58,16 @@ private fun BatteryHealth.toDisplayText(): String {
         BatteryHealth.OVER_VOLTAGE -> "Over voltage"
         BatteryHealth.FAILURE -> "Failure"
         BatteryHealth.UNKNOWN -> "Unavailable"
+    }
+}
+
+private fun BatteryPowerSource.toDisplayText(): String {
+    return when (this) {
+        BatteryPowerSource.AC -> "AC charger"
+        BatteryPowerSource.USB -> "USB"
+        BatteryPowerSource.WIRELESS -> "Wireless"
+        BatteryPowerSource.DOCK -> "Dock"
+        BatteryPowerSource.BATTERY -> "On battery"
+        BatteryPowerSource.UNKNOWN -> "Unavailable"
     }
 }

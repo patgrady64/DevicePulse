@@ -41,6 +41,11 @@ DevicePulse follows a milestone-based development process. Versions may remain i
 - Voltage formatting from millivolts to volts
 - Unit tests for voltage formatting and battery UI mapping
 
+20260801212353
+- Live battery charging-source monitoring
+- Support for AC, USB, wireless, dock, and battery power states
+- Unit tests for Android power-source mapping and dashboard display values
+
 ### Changed
 
 20260801203453

@@ -54,6 +54,12 @@ class AndroidBatteryMonitor(
                     UNKNOWN_VALUE
                 )
 
+                val pluggedSource = intent.getIntExtra(
+                    BatteryManager.EXTRA_PLUGGED,
+                    UNKNOWN_VALUE
+                )
+
+
                 trySend(
                     BatteryInfo(
                         percentage = BatteryPercentageCalculator.calculate(
@@ -64,7 +70,10 @@ class AndroidBatteryMonitor(
                         temperatureCelsius = readTemperature(intent),
                         health = BatteryHealthMapper.map(health),
                         voltageMillivolts = voltageMillivolts
-                            .takeIf { it > 0 }
+                            .takeIf { it > 0 },
+                        powerSource = BatteryPowerSourceMapper.map(
+                            androidPowerSource = pluggedSource
+                        )
                     )
                 )
             }

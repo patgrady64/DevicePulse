@@ -8,5 +8,6 @@ data class BatteryInfo(
     val chargingStatus: BatteryChargingStatus,
     val temperatureCelsius: Float?,
     val health: BatteryHealth,
-    val voltageMillivolts: Int?
+    val voltageMillivolts: Int?,
+    val powerSource: BatteryPowerSource
 )

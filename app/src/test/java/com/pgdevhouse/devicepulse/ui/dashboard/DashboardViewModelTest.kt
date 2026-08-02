@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 import com.pgdevhouse.devicepulse.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
+import com.pgdevhouse.devicepulse.feature.battery.BatteryPowerSource
 
 private class FakeBatteryMonitor(
     private val percentage: Int?,
@@ -24,10 +25,11 @@ private class FakeBatteryMonitor(
         return flowOf(
             BatteryInfo(
                 percentage = percentage,
-                chargingStatus = BatteryChargingStatus.DISCHARGING,
+                chargingStatus = BatteryChargingStatus.CHARGING,
                 temperatureCelsius = temperatureCelsius,
                 health = BatteryHealth.GOOD,
-                voltageMillivolts = 4_200
+                voltageMillivolts = 4_200,
+                powerSource = BatteryPowerSource.USB
             )
         )
     }
@@ -68,7 +70,7 @@ class DashboardViewModelTest {
         assertEquals("3.1 GB", state.availableMemory)
 
         assertEquals(
-            "Discharging",
+            "Charging",
             state.battery.chargingStatus
         )
     }

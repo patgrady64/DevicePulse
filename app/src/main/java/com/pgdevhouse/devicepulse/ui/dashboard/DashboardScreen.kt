@@ -198,6 +198,11 @@ private fun BatteryCard(
         )
 
         InformationRow(
+            label = "Power source",
+            value = state.powerSource
+        )
+
+        InformationRow(
             label = "Temperature",
             value = TemperatureFormatter.format(
                 state.temperature
