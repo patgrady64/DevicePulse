@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.pgdevhouse.devicepulse.ui.dashboard.BatteryCardUiState
 
 /**
  * Holds the dashboard's screen-level state and observes live device data.
@@ -36,11 +37,14 @@ class DashboardViewModel(
                 .collectLatest { batteryInfo ->
                     _uiState.update { currentState ->
                         currentState.copy(
-                            batteryPercentage = batteryInfo.percentage,
-                            batteryChargingStatus =
-                                batteryInfo.chargingStatus.toDisplayText(),
-                            batteryTemperature =
-                                batteryInfo.temperatureCelsius
+                            battery = BatteryCardUiState(
+                                percentage = batteryInfo.percentage,
+                                chargingStatus =
+                                    batteryInfo.chargingStatus.toDisplayText(),
+                                temperature =
+                                    batteryInfo.temperatureCelsius,
+                                condition = "Good"
+                            )
                         )
                     }
                 }

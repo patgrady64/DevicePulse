@@ -59,24 +59,24 @@ class DashboardViewModelTest {
             "Everything appears normal",
             state.statusTitle
         )
-        assertEquals(74, state.batteryPercentage)
-        assertEquals(32.4f, state.batteryTemperature)
+        assertEquals(74, state.battery.percentage)
+        assertEquals(32.4f, state.battery.temperature)
         assertEquals("82 GB", state.freeStorage)
         assertEquals("3.1 GB", state.availableMemory)
 
         assertEquals(
             "Discharging",
-            state.batteryChargingStatus
+            state.battery.chargingStatus
         )
     }
 
     @Test
     fun `battery percentage is within valid range`() {
-        val percentage = viewModel.uiState.value.batteryPercentage
+        val percentage = viewModel.uiState.value.battery.percentage
 
         assertTrue(
             "Battery percentage must be between 0 and 100",
-            percentage in 0..100
+            percentage != null && percentage in 0..100
         )
     }
 

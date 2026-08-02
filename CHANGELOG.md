@@ -24,6 +24,11 @@ DevicePulse follows a milestone-based development process. Versions may remain i
 * Dashboard ViewModel unit tests
 * Battery percentage calculator unit tests
 * Project architecture documentation
+* - Live battery percentage updates
+- Live charging-status updates
+- Live battery temperature data
+- Reactive battery monitoring with Flow and StateFlow
+- Reusable coroutine Main dispatcher rule for ViewModel tests
 
 ### Changed
 
@@ -31,6 +36,9 @@ DevicePulse follows a milestone-based development process. Versions may remain i
 * Moved dashboard UI out of `MainActivity`
 * Replaced hardcoded dashboard ownership with state supplied through the ViewModel
 * Added explicit Material theme background handling
+* - Grouped battery dashboard values into `BatteryCardUiState`
+- Simplified `BatteryCard` to receive a single state object
+- Updated dashboard ViewModel tests for feature-based UI state
 
 ### Fixed
 

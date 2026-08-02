@@ -90,10 +90,7 @@ fun DashboardScreen(
             )
 
             BatteryCard(
-                batteryPercentage = uiState.batteryPercentage,
-                temperature = uiState.batteryTemperature,
-                chargingStatus = uiState.batteryChargingStatus,
-                batteryCondition = uiState.batteryCondition
+                state = uiState.battery
             )
 
             StorageCard(
@@ -173,24 +170,21 @@ private fun StatusSummaryCard(
 
 @Composable
 private fun BatteryCard(
-    batteryPercentage: Int?,
-    temperature: Float?,
-    chargingStatus: String,
-    batteryCondition: String
+    state: BatteryCardUiState
 ) {
     DashboardCard(
         title = "Battery"
     ) {
         Text(
-            text = batteryPercentage?.let { "$it%" } ?: "Unavailable",
+            text = state.percentage?.let { "$it%" } ?: "Unavailable",
             style = MaterialTheme.typography.displaySmall
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (batteryPercentage != null) {
+        if (state.percentage != null) {
             LinearProgressIndicator(
-                progress = { batteryPercentage / 100f },
+                progress = { state.percentage / 100f },
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -199,19 +193,19 @@ private fun BatteryCard(
 
         InformationRow(
             label = "Status",
-            value = chargingStatus
+            value = state.chargingStatus
         )
 
         InformationRow(
             label = "Temperature",
             value = TemperatureFormatter.format(
-                temperature
+                state.temperature
             )
         )
 
         InformationRow(
             label = "Condition",
-            value = batteryCondition
+            value = state.condition
         )
     }
 }
