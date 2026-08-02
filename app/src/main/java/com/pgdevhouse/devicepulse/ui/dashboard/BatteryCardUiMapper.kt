@@ -2,6 +2,7 @@ package com.pgdevhouse.devicepulse.ui.dashboard
 
 import com.pgdevhouse.devicepulse.feature.battery.BatteryChargingStatus
 import com.pgdevhouse.devicepulse.feature.battery.BatteryInfo
+import com.pgdevhouse.devicepulse.feature.battery.BatteryHealth
 
 /**
  * Converts battery domain models into UI state.
@@ -21,7 +22,7 @@ object BatteryCardUiMapper {
             temperature = batteryInfo.temperatureCelsius,
 
             // Temporary until Android battery health is implemented.
-            condition = "Good"
+            condition = batteryInfo.health.toDisplayText()
         )
     }
 }
@@ -44,5 +45,17 @@ private fun BatteryChargingStatus.toDisplayText(): String {
 
         BatteryChargingStatus.UNKNOWN ->
             "Unavailable"
+    }
+}
+
+private fun BatteryHealth.toDisplayText(): String {
+    return when (this) {
+        BatteryHealth.GOOD -> "Good"
+        BatteryHealth.OVERHEATED -> "Overheated"
+        BatteryHealth.COLD -> "Cold"
+        BatteryHealth.DEAD -> "Dead"
+        BatteryHealth.OVER_VOLTAGE -> "Over voltage"
+        BatteryHealth.FAILURE -> "Failure"
+        BatteryHealth.UNKNOWN -> "Unavailable"
     }
 }

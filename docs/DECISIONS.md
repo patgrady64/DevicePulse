@@ -191,3 +191,42 @@ Improves readability and scalability.
 # Future Decisions
 
 This document will continue to grow throughout the project.
+
+# Decision 007
+
+## Title
+
+Use UI Mappers Between Domain Models and UI State
+
+## Status
+
+Accepted
+
+## Date
+
+August 2026
+
+## Problem
+
+ViewModels can become responsible for formatting and presentation decisions as features grow.
+
+## Decision
+
+Use dedicated UI mappers to convert domain models into feature-specific UI state.
+
+Example:
+
+BatteryInfo
+→ BatteryCardUiMapper
+→ BatteryCardUiState
+
+## Why
+
+This keeps ViewModels focused on coordinating data and keeps presentation rules testable and reusable.
+
+## Consequences
+
+- ViewModels remain smaller
+- Presentation logic has a clear home
+- New battery fields can be added without expanding ViewModel responsibilities
+- Mappers require their own unit tests

@@ -1,6 +1,7 @@
 package com.pgdevhouse.devicepulse.ui.dashboard
 
 import com.pgdevhouse.devicepulse.feature.battery.BatteryChargingStatus
+import com.pgdevhouse.devicepulse.feature.battery.BatteryHealth
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -24,7 +25,8 @@ private class FakeBatteryMonitor(
             BatteryInfo(
                 percentage = percentage,
                 chargingStatus = BatteryChargingStatus.DISCHARGING,
-                temperatureCelsius = temperatureCelsius
+                temperatureCelsius = temperatureCelsius,
+                health = BatteryHealth.GOOD
             )
         )
     }

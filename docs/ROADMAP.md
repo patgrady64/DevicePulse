@@ -55,7 +55,7 @@ Status: In Progress
 - [x] Live charging status
 - [x] Live battery temperature
 - [ ] Battery voltage
-- [ ] Battery health
+- [x] Battery health
 - [ ] Charging source
 - [ ] Battery technology
 - [ ] Better unavailable states

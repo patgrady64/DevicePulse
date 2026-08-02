@@ -27,11 +27,23 @@ DevicePulse follows a milestone-based development process. Versions may remain i
 * - Live battery percentage updates
 - Live charging-status updates
 - Live battery temperature data
+- 
 - Reactive battery monitoring with Flow and StateFlow
 - Reusable coroutine Main dispatcher rule for ViewModel tests
 
+- Live Android-reported battery health
+- Battery health domain model and Android mapper
+- Dashboard condition mapping for good, overheated, cold, dead, over-voltage, failure, and unavailable states
+- Unit tests for battery health mapping and display behavior
+
 ### Changed
 
+20260801203453
+- Added `BatteryCardUiMapper` to translate battery domain data into dashboard UI state
+- Removed battery presentation logic from `DashboardViewModel`
+- Added mapper coverage for all battery charging states
+
+20260801
 * Reduced `MainActivity` to application startup responsibilities
 * Moved dashboard UI out of `MainActivity`
 * Replaced hardcoded dashboard ownership with state supplied through the ViewModel

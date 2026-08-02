@@ -6,5 +6,6 @@ package com.pgdevhouse.devicepulse.feature.battery
 data class BatteryInfo(
     val percentage: Int?,
     val chargingStatus: BatteryChargingStatus,
-    val temperatureCelsius: Float?
+    val temperatureCelsius: Float?,
+    val health: BatteryHealth
 )
